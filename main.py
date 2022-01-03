@@ -38,11 +38,19 @@ def profile_home():
     print("==data==", data)
     return render_template('profile_home.html', data=data)
 
-
 @app.route('/add_new_password_page')
 def add_new_password_page():
     return render_template('add_new_password.html')
 
+
+@app.route('/update_item')
+def update_item():
+    id = request.args.get('id', 1, type=str)
+    api_object = CrudAPI()
+    print("---id:---", id)
+    data = {}
+    data['documents'] = api_object.read_by_document_id(id)
+    return render_template('update_item.html', data=data)
 
 @app.route('/login_validation', methods=["POST"])
 def login_validation():
@@ -110,6 +118,14 @@ class CrudAPI:
         output = [{item: data[item] for item in data}
                   for data in documents]
         return output
+
+        db_conn.msg.find_one({'_id': ObjectId(my_oid)})
+
+    def read_by_document_id(self, id):
+        documents = self.db[self.collection].find_one({'_id': ObjectId(id)})
+        print("documents:", (documents))
+        return documents
+
 
     def read_by_page(self, rows_per_page, page_num=1):
         # Calculate number of documents to skip
