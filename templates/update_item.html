@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-4 offset-sm-4 offset-sd-3 offset-lg-4">
                     <h1 class="mb-3 text-center">Update password</h1>
-                    <form class="mb-3" action="{{ url_for('store_password_db') }}" method=post
+                    <form class="mb-3" action="{{ url_for('update_password_db') }}" method=post
                         oninput='confirm_password.setCustomValidity(confirm_password.value != password.value ? "Password does not match." : "")'>
                         <div class="form-group">
                             <label>Title:</label>
@@ -45,6 +45,8 @@
                             <input type="text" class="form-control" id="description" name="description"
                                 value='{{data.documents.description}}' />
                         </div>
+                        <input type="hidden" class="form-control" id="update_id" name="update_id"
+                                value='{{data.documents._id}}' />
                         <button type="submit" class="btn btn-primary btn-block">
                             Update password
                         </button>

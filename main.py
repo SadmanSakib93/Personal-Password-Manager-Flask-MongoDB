@@ -81,6 +81,24 @@ def store_password_db():
         return redirect(url_for('profile_home'))
 
 
+@app.route('/update_password_db', methods=["POST"])
+def update_password_db():
+    title = request.form.get("title")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    description = request.form.get("description")
+    update_id = request.form.get("update_id")
+    print("update_id: ", update_id)
+    if(title != None and email != None and password != None):
+        data = {'title': title,
+                'email': email,
+                'password': password,
+                'description': description}
+        api_object = CrudAPI()
+        response=api_object.update_data_by_id(update_data=data, update_id=update_id)
+        print("response: ", response)
+    return redirect(url_for('profile_home'))
+
 @app.route('/delete_document_db', methods=["POST"])
 def delete_document_db():
     print("inside delete_document_db")
@@ -134,16 +152,15 @@ class CrudAPI:
         data = self.db[self.collection].find().skip(skips).limit(rows_per_page)
         return data
 
-    def update_data(self):
-        filter = self.data['Filter']
-        updated_data = {"$set": self.data['DataToBeUpdated']}
-        response = self.collection.update_one(filter, updated_data)
+    def update_data_by_id(self, update_data, update_id):
+        print("update_data, update_id: ", update_data, update_id)
+        filter = ObjectId(update_id)
+        response = self.db[self.collection].update_one( {"_id": filter}, {"$set": update_data} )
         output = {'Status': 'Successfully Updated' if response.modified_count >
                   0 else "Nothing was updated."}
         return output
 
     def delete_data(self, id_document):
-        print("+++id_document+++", id_document)
         response = self.db[self.collection].delete_one( {"_id": id_document})
         output = {'message': 'Successfully Deleted' if response.deleted_count >
                   0 else "Record not found."}
