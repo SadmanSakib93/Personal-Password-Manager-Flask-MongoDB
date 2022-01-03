@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import flask
-from flask_paginate import Pagination, get_page_args
 import math
 
 app = Flask(__name__)
@@ -25,7 +25,6 @@ def login():
 @app.route('/profile_home')
 def profile_home():
     current_page_num = request.args.get('page', 1, type=int)
-    print("current_page_num:", current_page_num)
     rows_per_page = 5
     api_object = CrudAPI()
     data = {}
@@ -73,9 +72,22 @@ def store_password_db():
         api_object.insert_data(new_document=data)
         return redirect(url_for('profile_home'))
 
+
+@app.route('/delete_document_db', methods=["POST"])
+def delete_document_db():
+    print("inside delete_document_db")
+    id_document = str(request.get_data())
+    print("--id_document--", id_document[2:len(id_document)-1])
+    api_object = CrudAPI()
+    try:
+        response=api_object.delete_data(ObjectId(id_document[2:len(id_document)-1]))
+        return response
+    except:
+        print("Unable to delete!")
+        return redirect(url_for('profile_home'))
+
+    
 # MongoDB Model for ToDo CRUD Implementation
-
-
 class CrudAPI:
     def __init__(self):
         try:
@@ -100,13 +112,6 @@ class CrudAPI:
         return output
 
     def read_by_page(self, rows_per_page, page_num=1):
-        # Set the pagination configuration
-        page, per_page, offset = get_page_args(page_parameter='page',
-                                               per_page_parameter='per_page')
-        print("page, per_page, offset", page, per_page, offset)
-        documents = list(self.db[self.collection].find())
-        print("documents:", len(documents))
-
         # Calculate number of documents to skip
         skips = rows_per_page * (page_num - 1)
         # Skip and limit
@@ -121,11 +126,11 @@ class CrudAPI:
                   0 else "Nothing was updated."}
         return output
 
-    def delete_data(self, data):
-        filter = data['Filter']
-        response = self.collection.delete_one(filter)
-        output = {'Status': 'Successfully Deleted' if response.deleted_count >
-                  0 else "Document not found."}
+    def delete_data(self, id_document):
+        print("+++id_document+++", id_document)
+        response = self.db[self.collection].delete_one( {"_id": id_document})
+        output = {'message': 'Successfully Deleted' if response.deleted_count >
+                  0 else "Record not found."}
         return output
 
 
