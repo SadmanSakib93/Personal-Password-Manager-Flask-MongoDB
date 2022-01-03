@@ -250,7 +250,6 @@
                             <td>{{row.email}}</td>
                             <td>{{row.password}}</td>
                             <td>{{row.description}}</td>
-                            <!-- <td><span class="status text-success">&bull;</span> Active</td> -->
                             <td>
                                 <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
                                         class="material-icons">&#xE8B8;</i></a>
@@ -262,31 +261,33 @@
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>{{data.rows_per_page}}</b> out of <b>{{data.num_of_documents}}</b>
+                    <div class="hint-text">Showing <b>{{data.curr_page_num_of_documents}}</b> out of
+                        <b>{{data.num_of_documents}}</b>
                         entries</div>
                     <ul class="pagination">
                         {% if data.current_page_num != 1 %}
-                            <li class="page-link">
-                                <a href="{{ url_for('profile_home', page=data.current_page_num-1) }}">Previous</a>
-                            </li>
+                        <li class="page-link">
+                            <a href="{{ url_for('profile_home', page=data.current_page_num-1) }}">Previous</a>
+                        </li>
                         {% else %}
-                            <li class="page-link disabled">
-                                <a href="#">Previous</a>
-                            </li>
+                        <li class="page-link disabled">
+                            <a href="#">Previous</a>
+                        </li>
                         {% endif %}
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        {% if data.current_page_num != (data.num_of_documents//data.rows_per_page) %}
+
+                        {% for page_number in range(1, data.total_num_of_pages+1) %}
+                        <li class="page-link"><a href="{{ url_for('profile_home', page=page_number) }}"
+                                class="page-link">{{page_number}}</a></li>
+                        {% endfor %}
+
+                        {% if data.current_page_num != data.total_num_of_pages %}
                         <li class="page-link">
                             <a href="{{ url_for('profile_home', page=data.current_page_num+1) }}">Next</a>
                         </li>
                         {% else %}
-                            <li class="page-link disabled">
-                                <a href="#">Next</a>
-                            </li>
+                        <li class="page-link disabled">
+                            <a href="#">Next</a>
+                        </li>
                         {% endif %}
                     </ul>
                 </div>

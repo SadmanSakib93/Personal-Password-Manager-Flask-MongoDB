@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request
 from pymongo import MongoClient
 import flask
 from flask_paginate import Pagination, get_page_args
+import math
 
 app = Flask(__name__)
 
@@ -25,13 +26,16 @@ def login():
 def profile_home():
     current_page_num = request.args.get('page', 1, type=int)
     print("current_page_num:", current_page_num)
-    rows_per_page=1
+    rows_per_page = 5
     api_object = CrudAPI()
-    data={}
-    data['documents'] = api_object.read_by_page(rows_per_page=rows_per_page, page_num=current_page_num)
-    data['num_of_documents']=len(api_object.read())
-    data['rows_per_page']=rows_per_page
-    data['current_page_num']=current_page_num
+    data = {}
+    data['documents'] = list(api_object.read_by_page(
+        rows_per_page=rows_per_page, page_num=current_page_num))
+    data['num_of_documents'] = len(api_object.read())
+    data['curr_page_num_of_documents'] = len(data['documents'])
+    data['rows_per_page'] = rows_per_page
+    data['current_page_num'] = current_page_num
+    data['total_num_of_pages'] = math.ceil(data['num_of_documents']/data['rows_per_page'])
     print("==data==", data)
     return render_template('profile_home.html', data=data)
 
@@ -98,11 +102,11 @@ class CrudAPI:
     def read_by_page(self, rows_per_page, page_num=1):
         # Set the pagination configuration
         page, per_page, offset = get_page_args(page_parameter='page',
-                                           per_page_parameter='per_page')
+                                               per_page_parameter='per_page')
         print("page, per_page, offset", page, per_page, offset)
         documents = list(self.db[self.collection].find())
         print("documents:", len(documents))
-        
+
         # Calculate number of documents to skip
         skips = rows_per_page * (page_num - 1)
         # Skip and limit
