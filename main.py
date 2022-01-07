@@ -79,7 +79,6 @@ def store_password_db():
     email = request.form.get("email")
     password = request.form.get("password")
     description = request.form.get("description")
-    private_key = b'arDX139818LacYNQ78TCm8D6iOm1HrvRnvOCKMlebj8='
     fernet = Fernet(private_key)
     password_encrypted = fernet.encrypt(password.encode())
     if(title != None and email != None and password_encrypted != None):
@@ -99,7 +98,6 @@ def update_password_db():
     password = request.form.get("password")
     description = request.form.get("description")
     update_id = request.form.get("update_id")
-    private_key = b'arDX139818LacYNQ78TCm8D6iOm1HrvRnvOCKMlebj8='
     fernet = Fernet(private_key)
     password_encrypted = fernet.encrypt(password.encode())
     if(title != None and email != None and password_encrypted != None):
