@@ -6,4 +6,4 @@
     - Frontend: HTML, CSS, JS, jQuery, Bootstrap
 
 - Here are some screenshots of the web application:
-    ![Optional Text](screenshots/index.png)
+    - <img src="screenshots/index.png" width="256"/>
