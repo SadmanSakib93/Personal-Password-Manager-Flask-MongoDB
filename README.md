@@ -1,4 +1,4 @@
-# Personal_Password_Manager
+# Personal Password Manager (Flask, MongoDB)
 - This is a very simple web application developed for mainly personal useage. The user sign up option is not available, hence, it can be used mainly for personal use. The passwords are saved encrypted in the database, hence, no need to worry about the security.
 
 - Although, it is a very basic web application with very minimal styles, it is a fully responsive one.
