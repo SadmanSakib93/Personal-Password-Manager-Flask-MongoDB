@@ -18,3 +18,5 @@
     <img src="screenshots/update_password.png" width="1024"/>
 - Delete existing password record:
     <img src="screenshots/delete_password.png" width="1024"/>
+    
+- Although, it is a very basic web application with very minimal styles, it is a fully responsive one.
