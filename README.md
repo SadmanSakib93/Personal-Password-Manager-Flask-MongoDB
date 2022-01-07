@@ -7,14 +7,14 @@
 
 - Here are some screenshots of the web application:
     - First landing page: 
-    <img src="screenshots/index.png" width="256"/>
+    <img src="screenshots/index.png" width="1024"/>
     - Login page:
-    <img src="screenshots/login.png" width="256"/>
+    <img src="screenshots/login.png" width="1024"/>
     - Home page after login:
-    <img src="screenshots/profile_home.png" width="256"/>
+    <img src="screenshots/profile_home.png" width="1024"/>
     - Add new password page:
-    <img src="screenshots/add_new_password.png" width="256"/>
+    <img src="screenshots/add_new_password.png" width="1024"/>
     - Update existing password page:
-    <img src="screenshots/update_password.png" width="256"/>
+    <img src="screenshots/update_password.png" width="1024"/>
     - Delete existing password record:
-    <img src="screenshots/delete_password.png" width="256"/>
+    <img src="screenshots/delete_password.png" width="1024"/>
