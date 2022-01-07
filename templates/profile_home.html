@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Bootstrap User Management Data Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Personal Password Manager - List of saved password entries</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -37,7 +37,7 @@
 
         .table-title {
             padding-bottom: 15px;
-            background: #299be4;
+            background: #d66464;
             color: #fff;
             padding: 16px 30px;
             margin: -20px -25px 10px;
@@ -50,7 +50,7 @@
         }
 
         .table-title .btn {
-            color: #566787;
+            color: #0059ff;
             float: right;
             font-size: 13px;
             background: #fff;
@@ -121,15 +121,11 @@
             text-decoration: none;
         }
 
-        table.table td a:hover {
+        table.table td a.update_item:hover {
             color: #2196F3;
         }
 
-        table.table td a.settings {
-            color: #2196F3;
-        }
-
-        table.table td a.delete {
+        table.table td a.delete_item:hover {
             color: #F44336;
         }
 
@@ -227,7 +223,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-5">
-                            <h2><b>Personal Password Manager</b></h2>
+                            <h2><b>List of saved password entries</b></h2>
                         </div>
                         <div class="col-sm-7">
                             <a href="{{ url_for('add_new_password_page') }}" class="btn btn-secondary"><i
@@ -254,9 +250,8 @@
                             <td>{{row.password}}</td>
                             <td>{{row.description}}</td>
                             <td>
-                                <a href="{{ url_for('update_item', id=row._id) }}" class="update_item"
-                                    title="Update" data-toggle="tooltip" value={{row._id}}><i
-                                        class="material-icons">&#xe3c9;</i></a>
+                                <a href="{{ url_for('update_item', id=row._id) }}" class="update_item" title="Update"
+                                    data-toggle="tooltip" value={{row._id}}><i class="material-icons">&#xe3c9;</i></a>
                                 <a href="#" class="delete_item" title="Delete" data-toggle="tooltip"
                                     value={{row._id}}><i class="material-icons">&#xE5C9;</i></a>
                             </td>
