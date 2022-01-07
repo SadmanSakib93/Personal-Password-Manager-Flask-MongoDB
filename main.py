@@ -64,7 +64,7 @@ def update_item():
 def login_validation():
     email = request.form.get("email")
     master_key = request.form.get("master_key")
-    if(str(email) == "sadman.93.sakib@gmail.com" and str(master_key) == "1"):
+    if(str(email) == "ppm@ppm.com" and str(master_key) == "ppm_admin"):
         print("Login successfully!!! ")
         return redirect(url_for('profile_home', page=1))
     else:
