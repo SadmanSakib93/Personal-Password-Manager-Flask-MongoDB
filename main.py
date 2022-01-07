@@ -1,16 +1,16 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, flash, render_template, redirect, url_for, request
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from cryptography.fernet import Fernet
 import math
 
 app = Flask(__name__)
-
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+private_key = b'arDX139818LacYNQ78TCm8D6iOm1HrvRnvOCKMlebj8='
 
 @app.route("/")
 def home():
-    # print("private key:", Fernet.generate_key())
-    return render_template('index-video.html')
+    return render_template('index.html')
 
 
 @app.route('/signup', methods=['GET'])
@@ -37,12 +37,10 @@ def profile_home():
     data['current_page_num'] = current_page_num
     data['total_num_of_pages'] = math.ceil(
         data['num_of_documents']/data['rows_per_page'])
-    print("==data['documents']==", data['documents'])
-    private_key = b'arDX139818LacYNQ78TCm8D6iOm1HrvRnvOCKMlebj8='
+    
     fernet = Fernet(private_key)
     for doc_index in range(len(data['documents'])):
         data['documents'][doc_index]['password'] = fernet.decrypt(data['documents'][doc_index]['password']).decode()
-    print("==data['documents']==", data['documents'])
     return render_template('profile_home.html', data=data)
 
 
@@ -55,9 +53,10 @@ def add_new_password_page():
 def update_item():
     id = request.args.get('id', 1, type=str)
     api_object = CrudAPI()
-    print("---id:---", id)
     data = {}
     data['documents'] = api_object.read_by_document_id(id)
+    fernet = Fernet(private_key)
+    data['documents']['password'] = fernet.decrypt(data['documents']['password']).decode()
     return render_template('update_item.html', data=data)
 
 
@@ -65,12 +64,12 @@ def update_item():
 def login_validation():
     email = request.form.get("email")
     master_key = request.form.get("master_key")
-    print("email:", email, "master_key:", master_key)
     if(str(email) == "sadman.93.sakib@gmail.com" and str(master_key) == "1"):
         print("Login successfully!!! ")
         return redirect(url_for('profile_home', page=1))
     else:
         print("Login failed!!! ")
+        flash("Login failed. Wrong email or master key!")
         return redirect(url_for('login'))
 
 
@@ -111,15 +110,12 @@ def update_password_db():
         api_object = CrudAPI()
         response = api_object.update_data_by_id(
             update_data=data, update_id=update_id)
-        print("response: ", response)
     return redirect(url_for('profile_home'))
 
 
 @app.route('/delete_document_db', methods=["POST"])
 def delete_document_db():
-    print("inside delete_document_db")
     id_document = str(request.get_data())
-    print("--id_document--", id_document[2:len(id_document)-1])
     api_object = CrudAPI()
     try:
         response = api_object.delete_data(
@@ -154,11 +150,8 @@ class CrudAPI:
                   for data in documents]
         return output
 
-        db_conn.msg.find_one({'_id': ObjectId(my_oid)})
-
     def read_by_document_id(self, id):
         documents = self.db[self.collection].find_one({'_id': ObjectId(id)})
-        print("documents:", (documents))
         return documents
 
     def read_by_page(self, rows_per_page, page_num=1):
@@ -169,7 +162,6 @@ class CrudAPI:
         return data
 
     def update_data_by_id(self, update_data, update_id):
-        print("update_data, update_id: ", update_data, update_id)
         filter = ObjectId(update_id)
         response = self.db[self.collection].update_one(
             {"_id": filter}, {"$set": update_data})
