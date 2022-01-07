@@ -6,7 +6,9 @@
     - Frontend: HTML, CSS, JS, jQuery, Bootstrap
 
 - Here are some screenshots of the web application:
+- First landing page: 
     <img src="screenshots/index.png" width="1024"/>
+- Login page:
     <img src="screenshots/login.png" width="1024"/>
     <img src="screenshots/profile_home.png" width="1024"/>
     <img src="screenshots/add_new_password.png" width="1024"/>
