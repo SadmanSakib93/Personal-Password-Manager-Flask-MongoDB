@@ -6,4 +6,15 @@
     - Frontend: HTML, CSS, JS, jQuery, Bootstrap
 
 - Here are some screenshots of the web application:
-    - <img src="screenshots/index.png" width="256"/>
+    - First landing page: 
+    <img src="screenshots/index.png" width="256"/>
+    - Login page:
+    <img src="screenshots/login.png" width="256"/>
+    - Home page after login:
+    <img src="screenshots/profile_home.png" width="256"/>
+    - Add new password page:
+    <img src="screenshots/add_new_password.png" width="256"/>
+    - Update existing password page:
+    <img src="screenshots/update_password.png" width="256"/>
+    - Delete existing password record:
+    <img src="screenshots/delete_password.png" width="256"/>
