@@ -6,7 +6,7 @@ import math
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-private_key = b'arDX139818LacYNQ78TCm8D6iOm1HrvRnvOCKMlebj8='
+private_key = b'' # Add a private key for the password encryption & decryption. Not going to share mine, so kept empty!
 
 @app.route("/")
 def home():
@@ -129,7 +129,7 @@ class CrudAPI:
     def __init__(self):
         try:
             self.client = MongoClient(
-                "mongodb+srv://admin:admin@cluster0.you2d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+                "mongodb+srv://admin:<password>@cluster0.you2d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
             self.database = 'personal_password_manager_db'
             self.db = self.client[self.database]
             self.collection = 'passwords'
